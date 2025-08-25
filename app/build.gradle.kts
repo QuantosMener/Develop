@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    // Для Hilt используем KAPT, KSP в этом модуле НЕ нужен
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
 }
@@ -28,9 +29,7 @@ android {
                 "proguard-rules.pro"
             )
         }
-        debug {
-            isMinifyEnabled = false
-        }
+        debug { isMinifyEnabled = false }
     }
 
     compileOptions {
@@ -40,20 +39,16 @@ android {
 
     buildFeatures { compose = true }
 
-    packaging {
-        resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" }
-    }
+    packaging { resources { excludes += "/META-INF/{AL2.0,LGPL2.1}" } }
 }
 
-// Современный способ: без старого kotlinOptions
+// Современный способ задать JDK без устаревшего kotlinOptions
 kotlin { jvmToolchain(17) }
 
-kapt {
-    correctErrorTypes = true
-}
+kapt { correctErrorTypes = true }
 
 dependencies {
-    // Compose BOM
+    // Compose (BOM)
     implementation(platform("androidx.compose:compose-bom:2025.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
@@ -62,7 +57,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // Core / Lifecycle / Activity
+    // Core / Activity / Lifecycle
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.activity:activity-compose:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.2")
@@ -71,7 +66,7 @@ dependencies {
     // Навигация
     implementation("androidx.navigation:navigation-compose:2.9.3")
 
-    // Hilt (через KAPT)
+    // Hilt через KAPT
     implementation("com.google.dagger:hilt-android:2.57.1")
     kapt("com.google.dagger:hilt-compiler:2.57.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -79,7 +74,7 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
 
-    // DataStore (оба артифакта, чтобы типы были видны на этапе аннотаций)
+    // DataStore — оба артефакта, чтобы типы были видны во время аннотаций
     implementation("androidx.datastore:datastore-core:1.1.7")
     implementation("androidx.datastore:datastore-preferences:1.1.7")
 
