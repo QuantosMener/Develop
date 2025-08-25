@@ -8,15 +8,14 @@ plugins {
 
 android {
     namespace = "com.quantos.composestarter"
-    compileSdk = 35
+    compileSdk = 36   // <-- було 35
 
     defaultConfig {
         applicationId = "com.quantos.composestarter"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36 // <-- було 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -86,3 +85,16 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+android {
+    ...
+    kotlinOptions { /* цей блок можна видалити */ }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
